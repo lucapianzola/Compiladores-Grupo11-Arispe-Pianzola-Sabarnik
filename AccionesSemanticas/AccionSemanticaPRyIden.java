@@ -9,7 +9,7 @@ import edu.compiler.analizadorsemantico.TiposDeUso;
 /*
   Identificar tokens de palabras reservadas e indentificadores
 */
-public class AccionSemantica3 extends AccionSemantica{
+public class AccionSemanticaPRyIden extends AccionSemantica{
     @Override
     public void ejecutar(Token token, char c) {
         AnalizadorLexico.indice_caracter_leer--;

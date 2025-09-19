@@ -6,7 +6,7 @@ import edu.compiler.analizadorlexico.Token;
 /*
     Inicializar Token (Lexema)
  */
-public class AccionSemantica1 extends AccionSemantica{
+public class AccionSemanticaInitToken extends AccionSemantica{
     private String lexema;
 
     public AccionSemantica1() {

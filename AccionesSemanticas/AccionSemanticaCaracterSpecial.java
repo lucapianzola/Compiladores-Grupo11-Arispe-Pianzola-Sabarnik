@@ -7,7 +7,7 @@ import edu.compiler.analizadorlexico.Token;
     AS2: Establece el carácter como lexema y retorna el token asociado
     para símbolos de un solo carácter como ',' ';' '+' etc.
  */
-public class AccionSemantica2 extends AccionSemantica {
+public class AccionSemanticaCaracterSpecial extends AccionSemantica {
 
     @Override
     public void ejecutar(Token token, char c) {
