@@ -11,7 +11,7 @@ import java.math.BigInteger;
 public class AccionSemantica8 extends AccionSemantica {
 
     @Override
-    public void execute(Token token, char c) {
+    public void ejecutar(Token token, char c) {
         // Protecciones básicas
         if (token == null || token.getLexema() == null) return;
 
@@ -81,3 +81,4 @@ public class AccionSemantica8 extends AccionSemantica {
         return "AS8";
     }
 }
+
