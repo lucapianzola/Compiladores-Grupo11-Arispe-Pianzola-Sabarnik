@@ -35,8 +35,6 @@ public class AS8 extends AccionSemantica {
             return;
         }
         // Validar con BigInteger para detectar overflow
-        /*
-        BigInteger big;
         try {
             big = new BigInteger(digitos);
         } catch (NumberFormatException ex) {
@@ -46,7 +44,6 @@ public class AS8 extends AccionSemantica {
                 " - ERROR: Formato numérico inválido para literal entero");
             return;
         }
-        */
         // Chequear rango de long
         BigInteger longMin = BigInteger.valueOf(Long.MIN_VALUE);
         BigInteger longMax = BigInteger.valueOf(Long.MAX_VALUE);

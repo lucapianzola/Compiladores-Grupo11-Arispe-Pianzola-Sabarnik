@@ -13,7 +13,7 @@ public class AtributosTokens {
         this.idToken = idToken;
     }
     
-    public AtributosTokens(int idToken, int cantidad) {
+    public AtributosTokens(int cantidad, int idToken) {
         this.cantidad = cantidad;
         this.idToken = idToken;
     }

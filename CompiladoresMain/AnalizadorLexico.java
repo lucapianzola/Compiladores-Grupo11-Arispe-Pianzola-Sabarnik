@@ -36,6 +36,9 @@ public class AnalizadorLexico {
     public static int cant_constantes = 0;
     public static int estado_actual = 0;
 
+    //TP2
+    public Token yylval;
+
     // --- Constructor ---
     public AnalizadorLexico(String rutaArchivo) throws IOException {
         this.lector = new BufferedReader(new FileReader(rutaArchivo));
@@ -49,27 +52,26 @@ public class AnalizadorLexico {
     }
 
     private void iniciarColumnas(){
-    mapeoColumnas.add(new ConjuntoD());                // Columna 1: D (Prefijo del exponente Dfloat)
-    mapeoColumnas.add(new ConjuntoL());                // Columna 2: L (Sufijo Long)
-    mapeoColumnas.add(new ConjuntoMayus());            // Columna 3: L (Mayus)
-    mapeoColumnas.add(new ConjuntoMinus());            // Columna 4: l (Minus)
-    mapeoColumnas.add(new ConjuntoDigito());           // Columna 5: d (dígitos)
-    mapeoColumnas.add(new ConjuntoPorcentaje());       // Columna 6: %
-    mapeoColumnas.add(new ConjuntoSignos());           // Columna 7: signos
-    mapeoColumnas.add(new ConjuntoPunto());            // Columna 8: .
-    mapeoColumnas.add(new ConjuntoMas());              // Columna 9: +   
-    mapeoColumnas.add(new ConjuntoMenos());            // Columna 10: -  
-    mapeoColumnas.add(new ConjuntoMayor());            // Columna 11: >
-    mapeoColumnas.add(new ConjuntoMenor());            // Columna 12: <
-    mapeoColumnas.add(new ConjuntoExclamasion());      // Columna 13: !
-    mapeoColumnas.add(new ConjuntoIgual());            // Columna 14: =
-    mapeoColumnas.add(new ConjuntoDosPuntos());        // Columna 15: :
-    mapeoColumnas.add(new ConjuntoNumeral());          // Columna 16: #
+    mapeoColumnas.add(new ConjuntoD());       // Columna 0: "D"
+    mapeoColumnas.add(new ConjuntoL());          // Columna 1: "L"
+    mapeoColumnas.add(new ConjuntoMayus());            // Columna 2: L (Mayúsculas)
+    mapeoColumnas.add(new ConjuntoMinus());            // Columna 3: l (Minúsculas)
+    mapeoColumnas.add(new ConjuntoDigito());           // Columna 4: d
+    mapeoColumnas.add(new ConjuntoPorcentaje());       // Columna 5: %
+    mapeoColumnas.add(new ConjuntoSignos());              // Columna 6: _  <- IMPORTANTE
+    mapeoColumnas.add(new ConjuntoPunto());            // Columna 7: .
+    mapeoColumnas.add(new ConjuntoMas());              // Columna 8: +
+    mapeoColumnas.add(new ConjuntoMayor());            // Columna 10: >
+    mapeoColumnas.add(new ConjuntoMenor());            // Columna 11: <
+    mapeoColumnas.add(new ConjuntoIgual());            // Columna 13: =
+    mapeoColumnas.add(new ConjuntoExclamasion());      // Columna 12: !
+    mapeoColumnas.add(new ConjuntoDosPuntos());        // Columna 14: :
+    mapeoColumnas.add(new ConjuntoMenos());              // Columna 15: ;
     mapeoColumnas.add(new ConjuntoComillaDoble());     // Columna 17: "
+    mapeoColumnas.add(new ConjuntoNumeral());          // Columna 16: #
+    mapeoColumnas.add(new ConjuntoSaltoLinea());       // Columna 20: \n
     mapeoColumnas.add(new ConjuntoBlanco());           // Columna 18: espacio
     mapeoColumnas.add(new ConjuntoTabulado());         // Columna 19: \t
-    mapeoColumnas.add(new ConjuntoSaltoLinea());       // Columna 20: \n
-                                                       // Columna 21: "Otro"
 }
 
     private void cargarMatrices(){
@@ -93,11 +95,11 @@ public class AnalizadorLexico {
             {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 0, 15, 15, 15, 15}
         };
         matrizAcciones = new AccionSemantica[][]{
-        /* 0  */ {new AS1(), new AS1(), new AS1(), new AS1(), new AS1(), new ASE(), new AS2(), new AS1(), new AS1(), new AS1(), new AS1(), new AS1(), new ASE(), new AS1(), new AS1(), null, null, null, null, null, new ASE()},
+        /* 0  */ {new AS1(), new AS1(), new AS1(), new AS1(), new AS1(), new ASE(), new AS2(), new AS1(), new AS2(), new AS1(), new AS1(), new AS1(), new ASE(), new AS1(), new AS1(), null, null, null, null, null, new ASE()},
         /* 1  */ {new AS3(), new AS3(), new AS3(), new AS4(), new AS3(), new AS3(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4(), new AS4()},
         /* 2  */ {new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS6(), new AS6(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5()},
         /* 3  */ {new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS6(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5()},
-        /* 4  */ {new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new AS6(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE()},
+        /* 4  */ {new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new AS6(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE()},
         /* 5  */ {new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS6(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5(), new AS5()},
         /* 6  */ {new AS7(), new AS7(), new AS7(), new AS3(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7(), new AS7()},
         /* 7  */ {new ASE(), new AS8(), new ASE(), new ASE(), new AS3(), new ASE(), new ASE(), new AS3(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE(), new ASE()},
@@ -141,21 +143,21 @@ public class AnalizadorLexico {
 
     // --- Métodos Principales ---
 
-    public Token nextToken() {
+    public int yylex() {
         try{
             int estado_actual = 0;
             Token newToken = new Token(); //Crear un nuevo Token vacio
 
             //Entrar en un bucle que no termine hasta que se retorne un token
             while (true) {
-                if (lineaActual  == null) return null; //manejo fin de linea y fin de archivo
+                if (lineaActual  == null) return -1; //manejo fin de linea y fin de archivo
                 if (indice_caracter_leer >= lineaActual.length()){
                     lineaActual = lector.readLine();
                     if (lineaActual != null){
                         lineaActual += "\n";
                         numero_linea ++;
                         indice_caracter_leer = 0;
-                    } else return null; //fin del archivo
+                    } else return -1; //fin del archivo
                 }
 
                 //leo caracter y obtengo linea
@@ -174,6 +176,8 @@ public class AnalizadorLexico {
                     j = 20; // El índice de la columna "Otro"
                 }
 
+                //System.out.println("DEBUG -> Estado: " + estado_actual + ", Carácter: '" + caracter + "', Columna Detectada: " + j);
+
                 //consulto matrices
                 AccionSemantica accionSemantica = matrizAcciones[estado_actual][j];
                 int proximo_estado = matrizTransicion[estado_actual][j];
@@ -184,7 +188,8 @@ public class AnalizadorLexico {
 
                 if (proximo_estado == ESTADO_FINAL){
                     //caso 1 token reconocido
-                    return newToken; //retorna token valido
+                    yylval = newToken;
+                    return newToken.getId(); //retorna token valido
                 } else if (proximo_estado == ESTADO_ERROR){
                     estado_actual = 0;
                     newToken = new Token();
@@ -207,29 +212,34 @@ public class AnalizadorLexico {
         }
     }
 
-    // --- Programa Principal para Probar ---
-    public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Error: Debes pasar la ruta del archivo a compilar como argumento.");
-            return;
-        }
-
-        try {
-            AnalizadorLexico lex = new AnalizadorLexico(args[0]);
-            Token t;
-
-            System.out.println("---Lista de Tokens---");
-            
-            while ((t = lex.nextToken()) != null) {
-                System.out.println(t.toString()); 
-            }
-
-            lex.printTablaSimbolos();
-            lex.printErrors();
-            lex.printWarnings(); 
-
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
-        }
+    // --- Programa Principal para Probar ---// 
+public static void main(String[] args) {
+    if (args.length == 0) {
+        System.out.println("Error: Debes pasar la ruta del archivo a compilar como argumento.");
+        return;
     }
+
+    try {
+        AnalizadorLexico lex = new AnalizadorLexico(args[0]);
+        int tokenId;
+
+        System.out.println("---Lista de Tokens---");
+        
+        // El bucle ahora guarda el ID y comprueba que no sea el de fin de archivo (-1)
+        while ((tokenId = lex.yylex()) != -1) { 
+            // Obtenemos el token completo desde la variable pública yylval
+            Token t = lex.yylval; 
+            if (t != null) { // Verificamos que no sea nulo (por si acaso)
+                System.out.println(t.toString());
+            }
+        }
+
+        lex.printTablaSimbolos();
+        lex.printErrors();
+        lex.printWarnings(); 
+
+    } catch (IOException e) {
+        System.err.println("Error al leer el archivo: " + e.getMessage());
+    }
+}
 }

@@ -15,6 +15,7 @@ public class AS10 extends AccionSemantica {
             atributosTokens = new AtributosTokens(1, TiposToken.CADENA);
             token.setId(atributosTokens.getIdToken());
             AnalizadorLexico.tablaSimbolos.put(token.getLexema(), atributosTokens);
+            token.setId(TiposToken.CADENA);
         }
     }
 
