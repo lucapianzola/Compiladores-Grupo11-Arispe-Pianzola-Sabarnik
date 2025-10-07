@@ -9,7 +9,7 @@ import java.util.Map;
 public class ProbadorSimple {
 
     public static void main(String[] args) {
-        // --- AQUÍ DEFINES TUS CASOS DE PRUEBA ---
+        // --- ACA DEFINIMOS LOS CASOS DE PRUEBA ---
         Map<String, String> casosDePrueba = new LinkedHashMap<>();
     //    casosDePrueba.put("Caso 1: Identificadores y Palabras Reservadas", "123L var_1% do long until");
     //    casosDePrueba.put("Caso 2: Constantes Long y Dfloat", "123L 45.D+2 .99D-10");
@@ -26,11 +26,11 @@ public class ProbadorSimple {
 
             Path tempFile = null;
             try {
-                // 1. Crear un archivo temporal con el código de prueba
+                // Crear un archivo temporal con el código de prueba
                 tempFile = Files.createTempFile("test_", ".txt");
                 Files.writeString(tempFile, testCase.getValue());
 
-                // 2. Instanciar el Analizador Léxico con la RUTA del archivo temporal
+                // Instanciar el Analizador Léxico con la RUTA del archivo temporal
                 AnalizadorLexico lex = new AnalizadorLexico(tempFile.toString());
                 
                 System.out.println("--- Lista de Tokens ---");
@@ -46,7 +46,7 @@ public class ProbadorSimple {
                 }
                 // --- FIN DEL BUCLE CORREGIDO ---
 
-                // 3. Imprimir los resultados finales (descomentando la tabla de símbolos)
+                // Imprimir los resultados finales (descomentando la tabla de símbolos)
                 lex.printTablaSimbolos();
                 lex.printErrors();
                 lex.printWarnings();
@@ -54,7 +54,7 @@ public class ProbadorSimple {
             } catch (IOException e) {
                 System.err.println("Error durante la prueba: " + e.getMessage());
             } finally {
-                // 4. Asegurarse de borrar el archivo temporal al final
+                // Asegurarse de borrar el archivo temporal al final
                 if (tempFile != null) {
                     try {
                         Files.deleteIfExists(tempFile);
