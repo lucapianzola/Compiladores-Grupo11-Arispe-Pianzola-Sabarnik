@@ -37,7 +37,7 @@ public class AnalizadorLexico {
     public static int estado_actual = 0;
 
     //TP2
-    public Token yylval;
+    public ParserVal yylval;
 
     // --- Constructor ---
     public AnalizadorLexico(String rutaArchivo) throws IOException {
@@ -52,13 +52,13 @@ public class AnalizadorLexico {
     }
 
     private void iniciarColumnas(){
-    mapeoColumnas.add(new ConjuntoD());       // Columna 0: "D"
-    mapeoColumnas.add(new ConjuntoL());          // Columna 1: "L"
+    mapeoColumnas.add(new ConjuntoD());                // Columna 0: "D"
+    mapeoColumnas.add(new ConjuntoL());                // Columna 1: "L"
     mapeoColumnas.add(new ConjuntoMayus());            // Columna 2: L (Mayúsculas)
     mapeoColumnas.add(new ConjuntoMinus());            // Columna 3: l (Minúsculas)
     mapeoColumnas.add(new ConjuntoDigito());           // Columna 4: d
     mapeoColumnas.add(new ConjuntoPorcentaje());       // Columna 5: %
-    mapeoColumnas.add(new ConjuntoSignos());              // Columna 6: _  <- IMPORTANTE
+    mapeoColumnas.add(new ConjuntoSignos());           // Columna 6: _  
     mapeoColumnas.add(new ConjuntoPunto());            // Columna 7: .
     mapeoColumnas.add(new ConjuntoMas());              // Columna 8: +
     mapeoColumnas.add(new ConjuntoMayor());            // Columna 10: >
@@ -66,7 +66,7 @@ public class AnalizadorLexico {
     mapeoColumnas.add(new ConjuntoIgual());            // Columna 13: =
     mapeoColumnas.add(new ConjuntoExclamasion());      // Columna 12: !
     mapeoColumnas.add(new ConjuntoDosPuntos());        // Columna 14: :
-    mapeoColumnas.add(new ConjuntoMenos());              // Columna 15: ;
+    mapeoColumnas.add(new ConjuntoMenos());            // Columna 15: ;
     mapeoColumnas.add(new ConjuntoComillaDoble());     // Columna 17: "
     mapeoColumnas.add(new ConjuntoNumeral());          // Columna 16: #
     mapeoColumnas.add(new ConjuntoSaltoLinea());       // Columna 20: \n
@@ -76,23 +76,23 @@ public class AnalizadorLexico {
 
     private void cargarMatrices(){
         matrizTransicion = new int[][]{
-            {1, 1, 1, 6, 7, ESTADO_ERROR, ESTADO_FINAL, 8, ESTADO_FINAL, 3, 3, 2, ESTADO_ERROR, 4, 5, 13, 14, 0, 0, 0, ESTADO_ERROR},
-            {1, 1, 1, ESTADO_FINAL, 1, 1, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_FINAL, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
-            {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, 6, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {ESTADO_ERROR, ESTADO_FINAL, ESTADO_ERROR, ESTADO_ERROR, 7, ESTADO_ERROR, ESTADO_ERROR, 9, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
-            {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 9, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
-            {10, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, 9, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 11, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 11, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
-            {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 12, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
-            {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, 12, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
-            {13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, ESTADO_FINAL, 13, ESTADO_ERROR, 13, 13, 13},
-            {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 15, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
-            {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 15, 15, 15, 15},
-            {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 0, 15, 15, 15, 15}
+        /* 0  */    {1, 1, 1, 6, 7, ESTADO_ERROR, ESTADO_FINAL, 8, ESTADO_FINAL, 3, 3, 2, ESTADO_ERROR, 4, 5, 13, 14, 0, 0, 0, ESTADO_ERROR},
+        /* 1  */    {1, 1, 1, ESTADO_FINAL, 1, 1, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 2  */    {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 3  */    {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 4  */    {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_FINAL, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
+        /* 5  */    {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 6  */    {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, 6, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 7  */    {ESTADO_ERROR, ESTADO_FINAL, ESTADO_ERROR, ESTADO_ERROR, 7, ESTADO_ERROR, ESTADO_ERROR, 9, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
+        /* 8  */    {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 9, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
+        /* 9  */    {10, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, 9, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 10  */    {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 11, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 11, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
+        /* 11 */    {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 12, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
+        /* 12 */    {ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, 12, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL, ESTADO_FINAL},
+        /* 13 */    {13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, ESTADO_FINAL, 13, ESTADO_ERROR, 13, 13, 13},
+        /* 14 */    {ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, 15, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR, ESTADO_ERROR},
+        /* 15 */    {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 15, 15, 15, 15},
+        /* 16 */    {15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 0, 15, 15, 15, 15}
         };
         matrizAcciones = new AccionSemantica[][]{
         /* 0  */ {new AS1(), new AS1(), new AS1(), new AS1(), new AS1(), new ASE(), new AS2(), new AS1(), new AS2(), new AS1(), new AS1(), new AS1(), new ASE(), new AS1(), new AS1(), null, null, null, null, null, new ASE()},
@@ -150,14 +150,14 @@ public class AnalizadorLexico {
 
             //Entrar en un bucle que no termine hasta que se retorne un token
             while (true) {
-                if (lineaActual  == null) return -1; //manejo fin de linea y fin de archivo
+                if (lineaActual  == null) return 0; //manejo fin de linea y fin de archivo
                 if (indice_caracter_leer >= lineaActual.length()){
                     lineaActual = lector.readLine();
                     if (lineaActual != null){
                         lineaActual += "\n";
                         numero_linea ++;
                         indice_caracter_leer = 0;
-                    } else return -1; //fin del archivo
+                    } else return 0; //fin del archivo
                 }
 
                 //leo caracter y obtengo linea
@@ -187,9 +187,50 @@ public class AnalizadorLexico {
                     accionSemantica.ejecutar(newToken, caracter);
 
                 if (proximo_estado == ESTADO_FINAL){
-                    //caso 1 token reconocido
-                    yylval = newToken;
-                    return newToken.getId(); //retorna token valido
+
+                    // ---- INICIO DEL BLOQUE CORREGIDO ----
+
+                    int tokenId = newToken.getId();
+                    //System.out.println("DEBUG -> Token Finalizado. ID: " + tokenId + ", Lexema: '" + newToken.getLexema() + "'"); // <-- DEBUG ADICIONAL
+
+                    
+                    // Creamos un nuevo ParserVal para yylval. Por defecto está vacío.
+                    this.yylval = new ParserVal();
+
+                    // Dependiendo del tipo de token, ponemos el valor correcto en el campo correcto.
+                    switch (tokenId) {
+                        case Parser.IDENTIFICADOR:
+                        case Parser.CADENA:
+                            System.out.println("DEBUG -> Asignando a yylval.sval: '" + newToken.getLexema() + "'"); // <-- DEBUG CLAVE
+                            // Para ID y CADENA, el parser espera un String en .sval
+                            this.yylval.sval = newToken.getLexema();
+                            break;
+
+                        case Parser.CTE_LONG:
+                            // Para CTE_LONG, el parser espera un int en .ival
+                            AtributosTokens attrLong = tablaSimbolos.get(newToken.getLexema());
+                            if (attrLong != null && attrLong.getValor() != null) {
+                                // Hacemos la conversión de Long a int
+                                this.yylval.ival = ((Long) attrLong.getValor()).intValue();
+                            }
+                            break;
+
+                        case Parser.CTE_DFLOAT:
+                            // Para CTE_DFLOAT, el parser espera un double en .dval
+                            AtributosTokens attrDfloat = tablaSimbolos.get(newToken.getLexema());
+                            if (attrDfloat != null && attrDfloat.getValor() != null) {
+                                this.yylval.dval = (Double) attrDfloat.getValor();
+                            }
+                            break;
+                        
+                        // Para otros tokens (palabras reservadas, símbolos), no se necesita
+                        // pasar un valor, por lo que yylval puede ir vacío.
+                    }
+                    // ---- FIN DEL BLOQUE CORREGIDO ----
+
+                    System.out.println("DEBUG -> Token Reconocido: " + tokenId);
+                    return tokenId; // Retornamos el ID del token
+                    //return newToken.getId(); //retorna token valido
                 } else if (proximo_estado == ESTADO_ERROR){
                     estado_actual = 0;
                     newToken = new Token();
@@ -228,7 +269,7 @@ public static void main(String[] args) {
         // El bucle ahora guarda el ID y comprueba que no sea el de fin de archivo (-1)
         while ((tokenId = lex.yylex()) != -1) { 
             // Obtenemos el token completo desde la variable pública yylval
-            Token t = lex.yylval; 
+            ParserVal t = lex.yylval; 
             if (t != null) { // Verificamos que no sea nulo (por si acaso)
                 System.out.println(t.toString());
             }
