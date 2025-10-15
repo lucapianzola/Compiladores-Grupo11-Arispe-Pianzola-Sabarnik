@@ -1,6 +1,5 @@
 package CompiladoresMain;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,17 +8,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ProbadorSimple {
-
     public static void main(String[] args) {
         // --- BATERÍA DE CASOS DE PRUEBA PARA EL TP2 ---
         Map<String, String> casosDePrueba = new LinkedHashMap<>();
 
         // --- CASOS VÁLIDOS ---
-/*        casosDePrueba.put(
+        casosDePrueba.put(
             "1. Prueba de Inferencia 'var'",
-                "MIPROGRAMA {\n" +      // <-- Nombre del programa y llave de apertura
-                "    var X := 1L;\n" +   // <-- Tu sentencia, terminada con ;
-                "}"                      // <-- Llave de cierre
+                "MIPROGRAMA {\n" +     
+                "    var X := 1L;\n" +   
+                "}"              
         );
 
         casosDePrueba.put("2. Asignaciones (Simple y Múltiple - Tema 16)",
@@ -43,7 +41,7 @@ public class ProbadorSimple {
             "    } until (CONTADOR == 0L);\n" +
             "}"
         );
-     */  
+     
         casosDePrueba.put("4. Funciones (Temas 20, 23, 24)",
             "PROGFUNCIONES {\n" +
             "    long, dfloat FUNCION(cv sl long P1, cv le dfloat P2) {\n" +
@@ -57,7 +55,7 @@ public class ProbadorSimple {
             "}"
         );
  
- /*
+ 
         casosDePrueba.put("5. Lambda en Línea (Tema 27)",
             "PROGLAMDA {\n" +
             "    (long Z) { print(\"lambda ejecutada\"); } (123L);\n" +
@@ -76,17 +74,17 @@ public class ProbadorSimple {
 
         casosDePrueba.put("ERROR 2: IF con condición mal formada",
             "PROGERROR2 {\n" +
-            "    if X > 0L { print(\"mal\"); } endif;\n" + // <-- Faltan ( ) en la condición
+            "    if X > 0L { print(\"mal\"); } endif;\n" + //Faltan ( ) en la condición
             "}"
         );
 
         casosDePrueba.put("ERROR 3: Asignación simple con =",
             "PROGERROR3 {\n" +
             "    long X;\n" +
-            "    X = 10L; \n" + // <-- Debería ser :=
+            "    X = 10L; \n" + //  Debería ser :=
             "}"
         );
- */
+ 
         // --- EL MOTOR DE PRUEBAS ---
         for (Map.Entry<String, String> testCase : casosDePrueba.entrySet()) {
             System.out.println("\n=======================================================");
